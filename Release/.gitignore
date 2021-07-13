@@ -1,0 +1,8 @@
+*.obj
+*.tlog
+*.log
+*.txt
+*.recipe
+*.iobj
+*.ipdb
+*.res
