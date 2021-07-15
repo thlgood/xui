@@ -1,4 +1,4 @@
-#include "main_view.h"
+﻿#include "main_view.h"
 
 #include "xui/background.h"
 #include "xui/border.h"
@@ -61,7 +61,7 @@ MainView::MainView() {}
 
 void MainView::Init() {
   sub_view_ = AddChildView(new SubView);
-  label_view_ = static_cast<xui::Label*>(AddChildView(new xui::Label(L"��ã�����")));
+  label_view_ = static_cast<xui::Label*>(AddChildView(new xui::Label(L"你好，世界")));
   label_view_->SetFont({L"Microsoft YaHei", 20});
   label_view_->SetPreferredSize(xui::Size(140, 40));
   label_view_->SetBackground(
