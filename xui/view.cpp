@@ -114,6 +114,21 @@ void View::OnMouseMove(Point pt) {}
 
 void View::OnMouseLeave() {}
 
+Size View::GetPreferredSize() const {
+  if (preferred_size_) {
+    return *preferred_size_;
+  } else {
+    return CalculatePreferredSize();
+  }
+}
+
+void View::SetPreferredSize(const Size& size) {
+  preferred_size_.reset(new Size(size));
+}
+
+Size View::CalculatePreferredSize() const { return Size(); }
+
+
 void View::Paint(Canvas* canvas) {
   PaintBackground(canvas);
   OnPaint(canvas);

@@ -3,6 +3,10 @@
 #include "xui/view.h"
 #include "xui/widget_delegate.h"
 
+namespace xui {
+class Label;
+}
+
 class MainView : public xui::View, public xui::WidgetDelegate {
  public:
   MainView();
@@ -19,5 +23,6 @@ class MainView : public xui::View, public xui::WidgetDelegate {
 
  private:
   View* sub_view_;
+  xui::Label* label_view_;
   bool is_hovered_ = false;
 };

@@ -22,6 +22,9 @@
     <Filter Include="win32">
       <UniqueIdentifier>{2f13a5a3-d7fd-436e-81d6-aa31e38ce7be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="xui\controls">
+      <UniqueIdentifier>{b811447d-af4a-49f2-b975-574cec85af8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -66,6 +69,12 @@
     <ClInclude Include="xui\background.h">
       <Filter>xui</Filter>
     </ClInclude>
+    <ClInclude Include="xui\controls\label.h">
+      <Filter>xui\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="xui\font.h">
+      <Filter>xui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="xui.cpp">
@@ -93,6 +102,12 @@
       <Filter>xui</Filter>
     </ClCompile>
     <ClCompile Include="xui\background.cc">
+      <Filter>xui</Filter>
+    </ClCompile>
+    <ClCompile Include="xui\controls\label.cc">
+      <Filter>xui\controls</Filter>
+    </ClCompile>
+    <ClCompile Include="xui\font.cc">
       <Filter>xui</Filter>
     </ClCompile>
   </ItemGroup>

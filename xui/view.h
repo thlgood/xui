@@ -42,6 +42,12 @@ class View {
   virtual void OnMouseMove(Point pt);
   virtual void OnMouseLeave();
 
+  Size GetPreferredSize() const;
+  void SetPreferredSize(const Size& size);
+
+ protected:
+  virtual Size CalculatePreferredSize() const;
+
  private:
   void Paint(Canvas* canvas);
   void PaintBorder(Canvas* canvas);
@@ -56,13 +62,17 @@ class View {
   friend class Widget;
   std::list<View*> children_;
   View* parent_ = nullptr;
-  Rect bounds_;
-  bool is_root_view_ = true;
   Widget* widget_;
+
+  Rect bounds_;
+
+  bool is_root_view_ = true;
   bool is_hover_ = false;
 
   std::unique_ptr<Border> border_;
   std::unique_ptr<Background> background_;
+
+  std::unique_ptr<Size> preferred_size_;
 };
 
 }  // namespace xui

@@ -4,6 +4,8 @@
 #include <gdiplusbrush.h>
 #include <windows.h>
 
+#include "font.h"
+
 namespace xui {
 Canvas::Canvas(HDC hdc, int w, int h) : hdc_(hdc), width_(w), height_(h) {
   graphics_ = new Gdiplus::Graphics(hdc_);
@@ -37,6 +39,24 @@ void Canvas::FillRect(const Rect& rect, Color color) {
   Gdiplus::SolidBrush brush(color);
   // Gdiplus::Brush* b = &brush;
   graphics_->FillRectangle(&brush, rect.x, rect.y, rect.width, rect.height);
+}
+
+void Canvas::DrawString(const Rect& rect, const std::wstring& str, Font& font,
+                        Color color) {
+  if (str.empty() || rect.width <= 0 || rect.height <= 0) {
+    return;
+  }
+
+  if (!font.IsNull() || font.TryCreate()) {
+    Gdiplus::RectF rect_f((Gdiplus::REAL)rect.x, (Gdiplus::REAL)rect.x,
+                          (Gdiplus::REAL)rect.width,
+                          (Gdiplus::REAL)rect.height);
+    Gdiplus::SolidBrush solid_brush(color);
+    Gdiplus::StringFormat format(Gdiplus::StringAlignmentNear);
+
+    graphics_->DrawString(str.c_str(), str.length(), font.font_impl_ptr_.get(),
+                          rect_f, &format, &solid_brush);
+  }
 }
 
 void Canvas::Commit() {

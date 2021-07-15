@@ -90,7 +90,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;./xui/;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;./xui/;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -161,6 +161,8 @@
     <ClInclude Include="xui\background.h" />
     <ClInclude Include="xui\border.h" />
     <ClInclude Include="xui\canvas.h" />
+    <ClInclude Include="xui\controls\label.h" />
+    <ClInclude Include="xui\font.h" />
     <ClInclude Include="xui\render\gdiplus_wrap.h" />
     <ClInclude Include="xui\types.h" />
     <ClInclude Include="xui\view.h" />
@@ -174,6 +176,8 @@
     <ClCompile Include="xui\background.cc" />
     <ClCompile Include="xui\border.cc" />
     <ClCompile Include="xui\canvas.cpp" />
+    <ClCompile Include="xui\controls\label.cc" />
+    <ClCompile Include="xui\font.cc" />
     <ClCompile Include="xui\render\gdiplus_wrap.cpp" />
     <ClCompile Include="xui\view.cpp" />
     <ClCompile Include="xui\widget.cc" />

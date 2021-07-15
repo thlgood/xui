@@ -3,6 +3,7 @@
 #include "xui/background.h"
 #include "xui/border.h"
 #include "xui/widget.h"
+#include "xui/controls/label.h"
 
 class SubSubView : public xui::View {
  public:
@@ -60,6 +61,11 @@ MainView::MainView() {}
 
 void MainView::Init() {
   sub_view_ = AddChildView(new SubView);
+  label_view_ = static_cast<xui::Label*>(AddChildView(new xui::Label(L"��ã�����")));
+  label_view_->SetFont({L"Microsoft YaHei", 20});
+  label_view_->SetPreferredSize(xui::Size(140, 40));
+  label_view_->SetBackground(
+      std::make_unique<xui::SolidBackground>(0x33F83425));
 
   xui::Widget* widget = new xui::Widget;
   xui::Widget::InitParams init_param;
@@ -72,10 +78,14 @@ void MainView::Init() {
   widget->Show();
 }
 
-void MainView::Layout() { sub_view_->SetBounds(xui::Rect(10, 5, 80, 80)); }
+void MainView::Layout() { 
+  sub_view_->SetBounds(xui::Rect(10, 5, 80, 80)); 
+  xui::Size size = label_view_->GetPreferredSize();
+  label_view_->SetBounds(xui::Rect(100, 10, size.width, size.height));
+}
 
 void MainView::OnPaint(xui::Canvas* canvas) {
-  canvas->FillRect(LocalBounds(), is_hovered_ ? 0xFFFFFFFF : 0xFFFF0000);
+  //canvas->FillRect(LocalBounds(), is_hovered_ ? 0xFFFFFFFF : 0xFFFF0000);
 }
 
 void MainView::OnMouseEnter() {
