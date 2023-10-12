@@ -45,6 +45,8 @@ class View {
   Size GetPreferredSize() const;
   void SetPreferredSize(const Size& size);
 
+  virtual LPCWSTR GetName() { return L""; }
+
  protected:
   virtual Size CalculatePreferredSize() const;
 

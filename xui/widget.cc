@@ -20,13 +20,15 @@ void Widget::Show() { ShowWindow(SW_SHOW); }
 
 void Widget::Hide() { ShowWindow(SW_HIDE); }
 
-void Widget::InvalidateAll() { Invalidate(); }
+void Widget::InvalidateAll() { 
+  Invalidate(FALSE); 
+}
 
 void Widget::InvalidateRect(const Rect& rect) {
   RECT client_rect = {rect.x, rect.y, rect.x + rect.width,
                       rect.y + rect.height};
   CWindowImpl<Widget, CWindow, CFrameWinTraits>::InvalidateRect(&client_rect,
-                                                                TRUE);
+                                                                FALSE);
 }
 
 void Widget::OnFinalMessage(_In_ HWND /*hWnd*/) { delete this; }
@@ -45,13 +47,23 @@ LRESULT Widget::OnCreate(UINT uMsg, WPARAM wParam, LPARAM lParam,
 
 LRESULT Widget::OnPaint(UINT uMsg, WPARAM wParam, LPARAM lParam,
                         BOOL& bHandled) {
-  RECT rect;
+  CRect rect;
   GetClientRect(&rect);
 
   PAINTSTRUCT ps;
   HDC hdc = BeginPaint(&ps);
-  Canvas canvas(hdc, rect.right - rect.left, rect.bottom - rect.top);
+  HDC hMemDC = CreateCompatibleDC(hdc);
+  HBITMAP hMemBitmap = CreateCompatibleBitmap(hdc, rect.Width(), rect.Height());
+  HBITMAP hOldBitmap = (HBITMAP)SelectObject(hMemDC, hMemBitmap);
+
+  Canvas canvas(hMemDC, rect.Width(), rect.Height());
   init_params_.root_view_->Paint(&canvas);
+  BitBlt(hdc, 0, 0, rect.Width(), rect.Height(), hMemDC, 0, 0, SRCCOPY);
+
+  SelectObject(hMemDC, hOldBitmap);
+  DeleteObject(hMemBitmap);
+  DeleteDC(hMemDC);
+
   EndPaint(&ps);
   return 0;
 }
@@ -72,18 +84,17 @@ LRESULT Widget::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam,
   DWORD y = GET_Y_LPARAM(lParam);
 
   View* hited_view = init_params_.root_view_->FindViewByPoint(Point(x, y));
-
-  auto get_point = [&, this]() -> Point {
+  auto get_point = [&]() -> Point {
     Point pos = current_hovered_view_->GetPosInRootView();
     return Point(x, y) - pos;
   };
 
-  auto leave_old = [&, this]() -> void {
+  auto leave_old = [&]() -> void {
     current_hovered_view_->OnMouseLeave();
     current_hovered_view_ = nullptr;
   };
 
-  auto entry_new = [&, this]() -> void {
+  auto entry_new = [&]() -> void {
     current_hovered_view_ = hited_view;
     current_hovered_view_->OnMouseEnter();
 
@@ -91,7 +102,7 @@ LRESULT Widget::OnMouseMove(UINT uMsg, WPARAM wParam, LPARAM lParam,
     current_hovered_view_->OnMouseMove(pt);
   };
 
-  auto move_current = [&, this]() -> void {
+  auto move_current = [&]() -> void {
     Point pt = get_point();
     current_hovered_view_->OnMouseMove(pt);
   };

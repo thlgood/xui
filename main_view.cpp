@@ -66,6 +66,7 @@ void MainView::Init() {
   label_view_->SetPreferredSize(xui::Size(140, 40));
   label_view_->SetBackground(
       std::make_unique<xui::SolidBackground>(0x33F83425));
+  SetBackground(std::make_unique<xui::SolidBackground>(0xFFFFFFFF));
 
   xui::Widget* widget = new xui::Widget;
   xui::Widget::InitParams init_param;
@@ -90,12 +91,12 @@ void MainView::OnPaint(xui::Canvas* canvas) {
 
 void MainView::OnMouseEnter() {
   is_hovered_ = true;
-  InvalidateAll();
+  //InvalidateAll();
 }
 
 void MainView::OnMouseLeave() {
   is_hovered_ = false;
-  InvalidateAll();
+  //InvalidateAll();
 }
 
 void MainView::OnWidgetDestroy() { PostQuitMessage(0); }

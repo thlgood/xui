@@ -157,9 +157,12 @@ void View::PaintBackground(Canvas* canvas) {
 }
 
 View* View::FindViewByPoint(Point pt) {
-  View* target_child_view = nullptr;
-  bool handled = false;
+  xui::Rect local_bounds(bounds_.size());
+  if (!local_bounds.Contains(pt)) {
+    return nullptr;
+  }
 
+  View* target_child_view = nullptr;
   for (auto i = children_.rbegin(); i != children_.rend(); ++i) {
     View* v = *i;
     if (v->bounds_.Contains(pt)) {
@@ -171,10 +174,8 @@ View* View::FindViewByPoint(Point pt) {
   if (target_child_view) {
     Point pt_in_child = pt - target_child_view->bounds_.point();
     return target_child_view->FindViewByPoint(pt_in_child);
-  } else if (bounds_.Contains(pt)) {
-    return this;
   } else {
-    return nullptr;
+    return this;
   }
 }
 
